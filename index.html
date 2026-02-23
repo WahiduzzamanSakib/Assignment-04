@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- tailwindcss -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- title -->
+    <title>Job Application Tracker</title>
+</head>
+
+<body class=" w-[80%]  mx-auto bg-amber-50">
+    <header class=" sticky top-0">
+        <h1 class=" text-3xl font-bold text-blue-900  mt-10">Job Application Tracker</h1>
+        <div class="grid grid-cols-3  gap-4">
+            <div class=" bg-white shadow p-4 rounded-md">
+                <p class="text-xl">Total</p>
+                <p id="total-count" class=" text-blue-900 text-2xl font-bold">0</p>
+            </div>
+            <div class=" bg-white shadow p-4 rounded-md">
+                <p class="text-xl">Interview</p>
+                <p id="interview-count" class="text-green-600 text-2xl font-bold">0</p>
+            </div>
+            <div class=" bg-white shadow p-4 rounded-md">
+                <p class="text-xl">Rejected</p>
+                <p id="rejected-count" class=" text-red-500 text-2xl font-bold">0</p>
+            </div>
+        </div>
+    </header>
+    <main>
+        <section>
+            <div class=" flex justify-between  mt-4">
+                <h2 class="text-xl font-bold text-blue-900 ">Available Jobs</h2>
+                <p class="font-bold"><span id="tab-count">0</span> Jobs</p>
+            </div>
+            <!-- Tabs  -->
+            <div class="flex gap-4 mb-6 mt-6">
+                <button onclick="toggleStyle('all')"
+                    class="tab px-4 py-2 w-17 bg-blue-500 text-white rounded cursor-pointer" id="all"> All</button>
+
+                <button onclick="toggleStyle('interview')" class="tab px-4 py-2 bg-gray-200 rounded cursor-pointer"
+                    id="interview"> Interview </button>
+
+                <button onclick="toggleStyle('rejected')" class="tab px-4 py-2 bg-gray-200 rounded cursor-pointer"
+                    id="rejected">Rejected</button>
+            </div>
+        </section>
+
+
+    </main>
+
+    <!-- script  -->
+    <script src="./script.js"></script>
+</body>
+
+</html>
