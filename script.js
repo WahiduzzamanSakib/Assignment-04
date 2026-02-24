@@ -19,6 +19,7 @@ function calculateCount() {
 }
 calculateCount();
 
+
 const mainContainer = document.querySelector("main")
 console.log(mainContainer)
 
@@ -43,7 +44,7 @@ function toggleStyle(id) {
 
     selected.classList.remove('bg-gray-200', 'text-black')
     selected.classList.add('bg-blue-500', 'text-white')
-   
+
     if (id == "interview") {
         jobs.classList.add("hidden")
         filterSection.classList.remove("hidden")
@@ -61,6 +62,18 @@ function toggleStyle(id) {
     }
 
 }
+
+// function setStatusColor(statusBtn, status) {
+//     statusBtn.classList.remove('bg-gray-200', 'text-gray-600', 'bg-green-200', 'text-green-600', 'bg-red-200', 'text-red-600');
+
+//     if (status === 'interview') {
+//         statusBtn.classList.add('bg-green-200', 'text-green-600');
+//     } else if (status === 'rejected') {
+//         statusBtn.classList.add('bg-red-200', 'text-red-600');
+//     } else {
+//         statusBtn.classList.add('bg-gray-200', 'text-gray-600');
+//     }
+// }
 
 mainContainer.addEventListener("click", function (event) {
     if (event.target.classList.contains('job-interview')) {
@@ -92,7 +105,7 @@ mainContainer.addEventListener("click", function (event) {
         }
 
         rejectedList = rejectedList.filter(item => item.company != cardInfo.company);
-        
+
         if (currentStatus == 'rejected-count') {
             renderRejected()
         }
@@ -129,7 +142,7 @@ mainContainer.addEventListener("click", function (event) {
         }
 
         interviewList = interviewList.filter(item => item.company != cardInfo.company)
-         
+
         if (currentStatus == 'interview') {
             renderInterview()
         }
@@ -137,25 +150,25 @@ mainContainer.addEventListener("click", function (event) {
         calculateCount()
     }
     else if (event.target.classList.contains('delete-btn')) {
-    const parentNode = event.target.parentNode.parentNode;
-    const company = parentNode.querySelector('.company').innerText;
+        const parentNode = event.target.parentNode.parentNode;
+        const company = parentNode.querySelector('.company').innerText;
 
-    interviewList = interviewList.filter(item =>!(item.company === company) );
-    rejectedList = rejectedList.filter(item =>!(item.company === company));
+        interviewList = interviewList.filter(item => !(item.company === company));
+        rejectedList = rejectedList.filter(item => !(item.company === company));
 
-    if (jobs.contains(parentNode)) {
-        parentNode.remove();
+        if (jobs.contains(parentNode)) {
+            parentNode.remove();
+        }
+
+        if (currentStatus === "interview") {
+            renderInterview();
+        }
+        else if (currentStatus === "rejected") {
+            renderRejected();
+        }
+
+        calculateCount();
     }
-
-    if (currentStatus === "interview") {
-        renderInterview();
-    }
-    else if (currentStatus === "rejected") {
-        renderRejected();
-    }
-
-    calculateCount();
-}
 });
 
 
@@ -188,6 +201,9 @@ function renderInterview() {
                     <i class="fa-solid fa-trash-can delete-btn"></i>
                 </div>
                 `
+        // let statusBtn = div.querySelector('.status');
+        // setStatusColor(statusBtn, interview.status);
+
         filterSection.appendChild(div);
     }
 }
@@ -220,6 +236,9 @@ function renderRejected() {
                     <i class="fa-solid fa-trash-can delete-btn"></i>
                 </div>
                 `
+        // let statusBtn = div.querySelector('.status');
+
+        // setStatusColor(statusBtn, rejected.status);
         filterSection.appendChild(div);
     }
 }
