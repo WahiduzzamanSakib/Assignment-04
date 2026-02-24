@@ -60,25 +60,21 @@ function toggleStyle(id) {
         filterSection.classList.remove("hidden")
         renderRejected()
     }
-
 }
-
-// function setStatusColor(statusBtn, status) {
-//     statusBtn.classList.remove('bg-gray-200', 'text-gray-600', 'bg-green-200', 'text-green-600', 'bg-red-200', 'text-red-600');
-
-//     if (status === 'interview') {
-//         statusBtn.classList.add('bg-green-200', 'text-green-600');
-//     } else if (status === 'rejected') {
-//         statusBtn.classList.add('bg-red-200', 'text-red-600');
-//     } else {
-//         statusBtn.classList.add('bg-gray-200', 'text-gray-600');
-//     }
-// }
+function setStatusColor(statusBtn, status) {
+    statusBtn.classList.remove(
+        'bg-gray-200', 'text-gray-600',
+        'bg-green-200', 'text-green-600',
+        'bg-red-200', 'text-red-600'
+    );
+    if (status === "interview") statusBtn.classList.add('bg-green-200', 'text-green-600');
+    else if (status === "rejected") statusBtn.classList.add('bg-red-200', 'text-red-600');
+    else statusBtn.classList.add('bg-gray-200', 'text-gray-600');
+}
 
 mainContainer.addEventListener("click", function (event) {
     if (event.target.classList.contains('job-interview')) {
         const parentNode = event.target.parentNode.parentNode;
-
 
         const company = parentNode.querySelector('.company').innerText;
         const position = parentNode.querySelector('.position').innerText;
@@ -88,6 +84,8 @@ mainContainer.addEventListener("click", function (event) {
         const notes = parentNode.querySelector('.notes').innerText;
 
         parentNode.querySelector(".status").innerText = "interview"
+        let statusBtn = parentNode.querySelector(".status");
+        setStatusColor(statusBtn, "interview");
 
         const cardInfo = {
             company,
@@ -115,7 +113,6 @@ mainContainer.addEventListener("click", function (event) {
     else if (event.target.classList.contains('job-rejected')) {
         const parentNode = event.target.parentNode.parentNode;
 
-
         const company = parentNode.querySelector('.company').innerText;
         const position = parentNode.querySelector('.position').innerText;
         const location = parentNode.querySelector('.location').innerText;
@@ -123,7 +120,9 @@ mainContainer.addEventListener("click", function (event) {
         const status = parentNode.querySelector('.status').innerText
         const notes = parentNode.querySelector('.notes').innerText;
 
-        parentNode.querySelector(".status").innerText = "rejected"
+        parentNode.querySelector(".status").innerText = "Rejected"
+        let statusBtn = parentNode.querySelector(".status");
+        setStatusColor(statusBtn, "rejected");
 
         const cardInfo = {
             company,
@@ -133,7 +132,6 @@ mainContainer.addEventListener("click", function (event) {
             status: "rejected",
             notes,
         }
-
 
         const plantExist = rejectedList.find(item => item.company == cardInfo.company)
 
@@ -149,6 +147,7 @@ mainContainer.addEventListener("click", function (event) {
 
         calculateCount()
     }
+    // delete button
     else if (event.target.classList.contains('delete-btn')) {
         const parentNode = event.target.parentNode.parentNode;
         const company = parentNode.querySelector('.company').innerText;
@@ -174,8 +173,8 @@ mainContainer.addEventListener("click", function (event) {
 
 function renderInterview() {
     filterSection.innerHTML = "";
-    
-     if (interviewList.length === 0) {
+   
+    if (interviewList.length === 0) {
         filterSection.innerHTML = `
             <div class="flex flex-col items-center justify-center mt-10">
                 <img src="jobs.png" alt="No Jobs" class="w-20 h-20 mb-4">
@@ -187,7 +186,6 @@ function renderInterview() {
     }
 
     for (let interview of interviewList) {
-        console.log(interview)
 
         let div = document.createElement("div")
         div.className = 'flex justify-between  border-none p-6  bg-gray-100 mt-3'
@@ -212,8 +210,8 @@ function renderInterview() {
                     <i class="fa-solid fa-trash-can delete-btn"></i>
                 </div>
                 `
-        // let statusBtn = div.querySelector('.status');
-        // setStatusColor(statusBtn, interview.status);
+        let statusBtn = div.querySelector('.status');
+        setStatusColor(statusBtn, interview.status);
 
         filterSection.appendChild(div);
     }
@@ -221,7 +219,7 @@ function renderInterview() {
 
 function renderRejected() {
     filterSection.innerHTML = "";
-     if (rejectedList.length === 0) {
+    if (rejectedList.length === 0) {
         filterSection.innerHTML = `
             <div class="flex flex-col items-center justify-center mt-10">
                 <img src="jobs.png" alt="No Jobs" class="w-20 h-20 mb-4">
@@ -257,9 +255,9 @@ function renderRejected() {
                     <i class="fa-solid fa-trash-can delete-btn"></i>
                 </div>
                 `
-        // let statusBtn = div.querySelector('.status');
+        let statusBtn = div.querySelector('.status');
+        setStatusColor(statusBtn, rejected.status);
 
-        // setStatusColor(statusBtn, rejected.status);
         filterSection.appendChild(div);
     }
 }
