@@ -136,7 +136,26 @@ mainContainer.addEventListener("click", function (event) {
 
         calculateCount()
     }
-    
+    else if (event.target.classList.contains('delete-btn')) {
+    const parentNode = event.target.parentNode.parentNode;
+    const company = parentNode.querySelector('.company').innerText;
+
+    interviewList = interviewList.filter(item =>!(item.company === company) );
+    rejectedList = rejectedList.filter(item =>!(item.company === company));
+
+    if (jobs.contains(parentNode)) {
+        parentNode.remove();
+    }
+
+    if (currentStatus === "interview") {
+        renderInterview();
+    }
+    else if (currentStatus === "rejected") {
+        renderRejected();
+    }
+
+    calculateCount();
+}
 });
 
 
