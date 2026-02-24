@@ -1,5 +1,6 @@
 let interviewList = [];
 let rejectedList = [];
+let currentStatus = "all";
 
 
 let total = document.getElementById("total-count");
@@ -13,7 +14,7 @@ const tabCount = document.getElementById("tab-count");
 function calculateCount() {
     total.innerText = jobs.children.length;
     tabCount.innerText = jobs.children.length;
-   interviewCount.innerText = interviewList.length;
+    interviewCount.innerText = interviewList.length;
     rejectedCount.innerText = rejectedList.length;
 }
 calculateCount();
@@ -38,55 +39,108 @@ function toggleStyle(id) {
 
     const selected = document.getElementById(id)
     currentStatus = id
+    console.log(currentStatus)
 
     selected.classList.remove('bg-gray-200', 'text-black')
     selected.classList.add('bg-blue-500', 'text-white')
-
+   
     if (id == "interview") {
         jobs.classList.add("hidden")
         filterSection.classList.remove("hidden")
-        interviewInfo()
-    } else {
+        renderInterview()
+    }
+    else if (id == "all") {
         jobs.classList.remove("hidden")
         filterSection.classList.add("hidden")
+
     }
+    else if (id == "rejected") {
+        jobs.classList.add("hidden")
+        filterSection.classList.remove("hidden")
+        renderRejected()
+    }
+
 }
 
 mainContainer.addEventListener("click", function (event) {
-
-    console.log(event.target.classList.contains("job-interview"))
-
-    if (event.target.classList.contains("job-interview")) {
+    if (event.target.classList.contains('job-interview')) {
         const parentNode = event.target.parentNode.parentNode;
 
-        const company = parentNode.querySelector('.company').innerText
-        const position = parentNode.querySelector('.position').innerText
-        const location = parentNode.querySelector('.location').innerText
-        const type = parentNode.querySelector('.type').innerText
-        const status = parentNode.querySelector('.status').innerText
-        const notes = parentNode.querySelector('.notes').innerText
 
-         parentNode.querySelector(".status").innerText = "interview"
+        const company = parentNode.querySelector('.company').innerText;
+        const position = parentNode.querySelector('.position').innerText;
+        const location = parentNode.querySelector('.location').innerText;
+        const type = parentNode.querySelector('.type').innerText;
+        const status = parentNode.querySelector('.status').innerText
+        const notes = parentNode.querySelector('.notes').innerText;
+
+        parentNode.querySelector(".status").innerText = "interview"
 
         const cardInfo = {
             company,
             position,
             location,
             type,
-            status:"interview",
+            status: "interview",
             notes,
         }
 
-        const plantExist = interviewList.find(item => item.company === cardInfo.company)
-       
+        const plantExist = interviewList.find(item => item.company == cardInfo.company)
+
         if (!plantExist) {
             interviewList.push(cardInfo)
         }
-        interviewInfo()
-    }
-})
 
-function interviewInfo() {
+        rejectedList = rejectedList.filter(item => item.company != cardInfo.company);
+        
+        if (currentStatus == 'rejected-count') {
+            renderRejected()
+        }
+
+        calculateCount()
+    }
+    else if (event.target.classList.contains('job-rejected')) {
+        const parentNode = event.target.parentNode.parentNode;
+
+
+        const company = parentNode.querySelector('.company').innerText;
+        const position = parentNode.querySelector('.position').innerText;
+        const location = parentNode.querySelector('.location').innerText;
+        const type = parentNode.querySelector('.type').innerText;
+        const status = parentNode.querySelector('.status').innerText
+        const notes = parentNode.querySelector('.notes').innerText;
+
+        parentNode.querySelector(".status").innerText = "rejected"
+
+        const cardInfo = {
+            company,
+            position,
+            location,
+            type,
+            status: "rejected",
+            notes,
+        }
+
+
+        const plantExist = rejectedList.find(item => item.company == cardInfo.company)
+
+        if (!plantExist) {
+            rejectedList.push(cardInfo)
+        }
+
+        interviewList = interviewList.filter(item => item.company != cardInfo.company)
+         
+        if (currentStatus == 'interview') {
+            renderInterview()
+        }
+
+        calculateCount()
+    }
+    
+});
+
+
+function renderInterview() {
     filterSection.innerHTML = "";
 
     for (let interview of interviewList) {
@@ -119,5 +173,34 @@ function interviewInfo() {
     }
 }
 
+function renderRejected() {
+    filterSection.innerHTML = "";
+    for (let rejected of rejectedList) {
+        console.log(rejected)
 
- 
+        let div = document.createElement("div")
+        div.className = 'flex justify-between  border-none p-6  bg-gray-100 mt-3'
+        div.innerHTML = `
+                <div>
+                    <h1 class="company text-blue-900 font-bold text-xl mb-3">${rejected.company}</h1>
+                    <p class="position text-gray-600 mb-3 text-xl">${rejected.position}</p>
+                    <p class="location text-gray-600 mb-3">${rejected.location}</p>
+                    <p class="type text-gray-600 mb-3">
+                        ${rejected.type}</p>
+
+                    <button class="status bg-gray-200 p-1 font-bold rounded-md mb-3 text-gray-600">${rejected.status}</button>
+                    <p class="notes text-gray-600 mb-5">${rejected.notes}</p>
+                    <div>
+                        <button
+                            class="job-interview border border-green-400 text-green-400 p-2 font-bold rounded-md cursor-pointer">interview</button>
+                        <button
+                            class="job-rejected border border-red-500 text-red-500 p-2 font-bold rounded-md cursor-pointer">Rejected</button>
+                    </div>
+                </div>
+                <div class="bg-gray-200 rounded-full p-2 h-10 cursor-pointer">
+                    <i class="fa-solid fa-trash-can delete-btn"></i>
+                </div>
+                `
+        filterSection.appendChild(div);
+    }
+}
