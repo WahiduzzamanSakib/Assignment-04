@@ -174,6 +174,17 @@ mainContainer.addEventListener("click", function (event) {
 
 function renderInterview() {
     filterSection.innerHTML = "";
+    
+     if (interviewList.length === 0) {
+        filterSection.innerHTML = `
+            <div class="flex flex-col items-center justify-center mt-10">
+                <img src="jobs.png" alt="No Jobs" class="w-20 h-20 mb-4">
+                <p class="text-gray-800 text-xl">No jobs available</p>
+                <p class="text-gray-500 text-lg">Check back soon for new job opportunities</p>
+            </div>
+        `;
+        return;
+    }
 
     for (let interview of interviewList) {
         console.log(interview)
@@ -210,6 +221,16 @@ function renderInterview() {
 
 function renderRejected() {
     filterSection.innerHTML = "";
+     if (rejectedList.length === 0) {
+        filterSection.innerHTML = `
+            <div class="flex flex-col items-center justify-center mt-10">
+                <img src="jobs.png" alt="No Jobs" class="w-20 h-20 mb-4">
+                <p class="text-gray-800 text-xl">No jobs available</p>
+                <p class="text-gray-500 text-lg">Check back soon for new job opportunities</p>
+            </div>
+        `;
+        return;
+    }
     for (let rejected of rejectedList) {
         console.log(rejected)
 
