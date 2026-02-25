@@ -68,7 +68,7 @@ function setStatusColor(statusBtn, status) {
         'bg-red-200', 'text-red-600'
     );
     if (status === "interview") statusBtn.classList.add('bg-green-200', 'text-green-600');
-    else if (status === "rejected") statusBtn.classList.add('bg-red-200', 'text-red-600');
+    else if (status === "Rejected") statusBtn.classList.add('bg-red-200', 'text-red-600');
     else statusBtn.classList.add('bg-gray-200', 'text-gray-600');
 }
 
@@ -104,10 +104,23 @@ mainContainer.addEventListener("click", function (event) {
 
         rejectedList = rejectedList.filter(item => item.company != cardInfo.company);
 
-        if (currentStatus == 'rejected-count') {
-            renderRejected()
-        }
 
+        if (currentStatus === "rejected") {
+            renderRejected();
+        } else if (currentStatus === "interview") {
+            renderInterview();
+        }
+       
+        const allCards = jobs.children;
+        for (let card of allCards) {
+            const companyName = card.querySelector('.company').innerText;
+            if (companyName === company) {
+                const statusBtnMain = card.querySelector('.status');
+                statusBtnMain.innerText = "interview";
+                setStatusColor(statusBtnMain, "interview");
+                break;
+            }
+        }
         calculateCount()
     }
     else if (event.target.classList.contains('job-rejected')) {
@@ -129,7 +142,7 @@ mainContainer.addEventListener("click", function (event) {
             position,
             location,
             type,
-            status: "rejected",
+            status: "Rejected",
             notes,
         }
 
@@ -144,7 +157,17 @@ mainContainer.addEventListener("click", function (event) {
         if (currentStatus == 'interview') {
             renderInterview()
         }
-
+       
+        const allCards = jobs.children;
+        for (let card of allCards) {
+            const companyName = card.querySelector('.company').innerText;
+            if (companyName === company) {
+                const statusBtnMain = card.querySelector('.status');
+                statusBtnMain.innerText = "Rejected";
+                setStatusColor(statusBtnMain, "Rejected");
+                break;
+            }
+        }
         calculateCount()
     }
     // delete button
@@ -173,7 +196,7 @@ mainContainer.addEventListener("click", function (event) {
 
 function renderInterview() {
     filterSection.innerHTML = "";
-   
+
     if (interviewList.length === 0) {
         filterSection.innerHTML = `
             <div class="flex flex-col items-center justify-center mt-10">
@@ -230,7 +253,7 @@ function renderRejected() {
         return;
     }
     for (let rejected of rejectedList) {
-        console.log(rejected)
+
 
         let div = document.createElement("div")
         div.className = 'flex justify-between  border-none p-6  bg-gray-100 mt-3'
