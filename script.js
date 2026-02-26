@@ -19,11 +19,6 @@ function calculateCount() {
 }
 calculateCount();
 
-
-const mainContainer = document.querySelector("main")
-console.log(mainContainer)
-
-
 const allBtn = document.getElementById("all");
 const interviewBtn = document.getElementById("interview");
 const rejectedBtn = document.getElementById("rejected");
@@ -63,8 +58,7 @@ function toggleStyle(id) {
 }
 function setStatusColor(statusBtn, status) {
     statusBtn.classList.remove(
-        'bg-gray-200', 'text-gray-600',
-        'bg-green-200', 'text-green-600',
+        'bg-gray-200', 'text-white',
         'bg-red-200', 'text-red-600'
     );
     if (status === "interview") statusBtn.classList.add('bg-green-200', 'text-green-600');
@@ -72,6 +66,7 @@ function setStatusColor(statusBtn, status) {
     else statusBtn.classList.add('bg-gray-200', 'text-gray-600');
 }
 
+const mainContainer = document.querySelector("main");
 mainContainer.addEventListener("click", function (event) {
     if (event.target.classList.contains('job-interview')) {
         const parentNode = event.target.parentNode.parentNode;
@@ -82,7 +77,6 @@ mainContainer.addEventListener("click", function (event) {
         const type = parentNode.querySelector('.type').innerText;
         const status = parentNode.querySelector('.status').innerText
         const notes = parentNode.querySelector('.notes').innerText;
-
         parentNode.querySelector(".status").innerText = "interview"
         let statusBtn = parentNode.querySelector(".status");
         setStatusColor(statusBtn, "interview");
@@ -104,13 +98,10 @@ mainContainer.addEventListener("click", function (event) {
 
         rejectedList = rejectedList.filter(item => item.company != cardInfo.company);
 
-
         if (currentStatus === "rejected") {
             renderRejected();
-        } else if (currentStatus === "interview") {
-            renderInterview();
-        }
-       
+        } 
+
         const allCards = jobs.children;
         for (let card of allCards) {
             const companyName = card.querySelector('.company').innerText;
@@ -118,7 +109,6 @@ mainContainer.addEventListener("click", function (event) {
                 const statusBtnMain = card.querySelector('.status');
                 statusBtnMain.innerText = "interview";
                 setStatusColor(statusBtnMain, "interview");
-                break;
             }
         }
         calculateCount()
@@ -165,12 +155,11 @@ mainContainer.addEventListener("click", function (event) {
                 const statusBtnMain = card.querySelector('.status');
                 statusBtnMain.innerText = "Rejected";
                 setStatusColor(statusBtnMain, "Rejected");
-                break;
             }
         }
         calculateCount()
     }
-    // delete button
+          // delete button
     else if (event.target.classList.contains('delete-btn')) {
         const parentNode = event.target.parentNode.parentNode;
         const company = parentNode.querySelector('.company').innerText;
@@ -200,9 +189,9 @@ function renderInterview() {
     if (interviewList.length === 0) {
         filterSection.innerHTML = `
             <div class="flex flex-col items-center justify-center mt-10">
-                <img src="jobs.png" alt="No Jobs" class="w-20 h-20 mb-4">
-                <p class="text-gray-800 text-xl">No jobs available</p>
-                <p class="text-gray-500 text-lg">Check back soon for new job opportunities</p>
+                <img src="jobs.png" alt="" class="w-20 h-20 mb-4">
+                <p class="text-gray-800 text-xl">No Jobs Available</p>
+                <p class="text-gray-500 text-lg">Cheek back soon for new job opportunities</p>
             </div>
         `;
         return;
@@ -245,9 +234,9 @@ function renderRejected() {
     if (rejectedList.length === 0) {
         filterSection.innerHTML = `
             <div class="flex flex-col items-center justify-center mt-10">
-                <img src="jobs.png" alt="No Jobs" class="w-20 h-20 mb-4">
-                <p class="text-gray-800 text-xl">No jobs available</p>
-                <p class="text-gray-500 text-lg">Check back soon for new job opportunities</p>
+                <img src="jobs.png" alt="" class="w-20 h-20 mb-4">
+                <p class="text-gray-800 text-xl">No Jobs Available</p>
+                <p class="text-gray-500 text-lg">Cheek back soon for new job opportunities</p>
             </div>
         `;
         return;
