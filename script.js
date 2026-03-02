@@ -16,6 +16,14 @@ function calculateCount() {
     tabCount.innerText = jobs.children.length;
     interviewCount.innerText = interviewList.length;
     rejectedCount.innerText = rejectedList.length;
+
+    if (currentStatus === "all") {
+        tabCount.innerText = jobs.children.length;
+    } else if (currentStatus === "interview") {
+        tabCount.innerText = `${interviewList.length} of ${jobs.children.length}`;
+    } else if (currentStatus === "rejected") {
+       tabCount.innerText = `${rejectedList.length} of ${jobs.children.length}`;
+    }
 }
 calculateCount();
 
@@ -55,6 +63,7 @@ function toggleStyle(id) {
         filterSection.classList.remove("hidden")
         renderRejected()
     }
+    calculateCount();
 }
 function setStatusColor(statusBtn, status) {
     statusBtn.classList.remove(
